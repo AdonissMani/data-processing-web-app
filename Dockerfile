@@ -2,14 +2,14 @@
 FROM python:3.11-slim
 
 # Set the working directory
-WORKDIR ./app
+WORKDIR /app/app
 
 # Copy the requirements and install dependencies
 COPY Pipfile* /app/
 RUN pip install pipenv && pipenv install --system --deploy
 
 # Copy the application code
-COPY . /app
+COPY app /app/app
 
 # Expose the FastAPI port
 EXPOSE 8000
