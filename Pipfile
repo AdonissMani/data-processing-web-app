@@ -4,7 +4,6 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-fastapi = "*"
 uvicorn = "*"
 python-multipart = "*"
 psycopg2-binary = "*"
@@ -12,6 +11,9 @@ asyncpg = "*"
 sqlalchemy = "*"
 celery = "*"
 redis = "*"
+pydantic = "*"
+fastapi = "*"
+alembic = "*"
 
 [dev-packages]
 
