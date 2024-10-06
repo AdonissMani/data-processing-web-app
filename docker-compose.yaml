@@ -37,6 +37,12 @@ services:
       POSTGRES_DB: dbname
     ports:
       - "5432:5432"
+  
+  alembic:
+    build: .
+    command: alembic upgrade head
+    depends_on:
+      - db
 
   celery-beat:
     build: .
