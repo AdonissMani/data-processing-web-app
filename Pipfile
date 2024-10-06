@@ -14,6 +14,8 @@ redis = "*"
 pydantic = "*"
 fastapi = "*"
 alembic = "*"
+pytest = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
