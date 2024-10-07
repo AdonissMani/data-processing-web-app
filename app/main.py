@@ -1,7 +1,5 @@
-from fastapi import Depends, FastAPI, WebSocket, UploadFile, File
-from app.db.postgres import get_db, metadata, Base, engine
-from celery_worker import process_file
-import shutil
+from fastapi import FastAPI, WebSocket
+from app.db.postgres import Base, engine
 from app.services.file_upload import router as upload_router
 app = FastAPI()
 

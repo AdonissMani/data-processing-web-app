@@ -1,9 +1,13 @@
+from datetime import datetime
+import uuid
 from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from sqlalchemy.orm import Session
-from app.models import SensorData
+from app.models import FileUpload, SensorData
 from app.db.postgres import get_db
 from pydantic import BaseModel, ValidationError
 import json
+
+from celery_worker import process_sensor_data
 
 # Create a router instance
 router = APIRouter()
@@ -18,7 +22,7 @@ class SensorDataSchema(BaseModel):
 
 # Dependency function to check the file size
 def validate_file_size(file: UploadFile):
-    if file.spool_max_size > MAX_FILE_SIZE:
+    if file.size > MAX_FILE_SIZE:
         raise HTTPException(status_code=413, detail="File size exceeds 10MB limit.")
     return file
 
@@ -29,24 +33,45 @@ async def upload_file(file: UploadFile = File(...), db: Session = Depends(get_db
         raise HTTPException(status_code=400, detail="Invalid file format. Only JSON files are allowed.")
     
     try:
+        # Validate the file size
+        file = validate_file_size(file)
+
+        # Upload the file to db
+        file_instance = FileUpload(
+            id = uuid.uuid4(),
+            filename = file.filename,
+            upload_time = datetime.now(),
+            status = "completed",
+        )
+
+        # Add the file to the database
+        db.add(file_instance)
+        db.commit()
+        
         # Read the contents of the file
         contents = await file.read()
 
         # Convert bytes to string and parse JSON
         data = json.loads(contents)
-
-        # Validate each record in the file
+        # Store the validated sensor data in the database first
+        sensor_data_list = []
         for record in data:
-            validated_record = SensorDataSchema(**record)  # Validating each entry against the Pydantic schema
+            validated_record = SensorDataSchema(**record)
             sensor_data = SensorData(
-                sensor_id = validated_record.sensor_id,
-                value = validated_record.value,
-                timestamp = validated_record.timestamp
+                id = uuid.uuid4(),
+                sensor_id=validated_record.sensor_id,
+                value=validated_record.value,
+                timestamp=validated_record.timestamp,
+                file_upload_id=file_instance.id
             )
-            db.add(sensor_data)
+            sensor_data_list.append(sensor_data)
+
+        db.add_all(sensor_data_list)
         db.commit()
-        # If validation passes, return success response
-        return {"status": "File processed successfully", "records": len(data)}
+
+        # Send the entire batch of sensor data to Celery for anomaly detection
+        process_sensor_data.delay(file_instance.id)
+        return {"status": "File processed successfully", "task_id": file_instance.id}
     
     except json.JSONDecodeError:
         raise HTTPException(status_code=400, detail="File is not a valid JSON.")
