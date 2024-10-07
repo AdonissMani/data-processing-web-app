@@ -9,13 +9,14 @@ python-multipart = "*"
 psycopg2-binary = "*"
 asyncpg = "*"
 sqlalchemy = "*"
-celery = "*"
 redis = "*"
 pydantic = "*"
 fastapi = "*"
 alembic = "*"
 pytest = "*"
 python-dotenv = "*"
+celery = {extras = ["redis"], version = "*"}
+aioredis = "*"
 
 [dev-packages]
 

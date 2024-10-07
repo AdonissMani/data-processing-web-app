@@ -1,21 +1,21 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey
+from sqlalchemy import Column, String, Float, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from app.db.postgres import Base
 from datetime import datetime
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
 
-# class FileUpload(Base):
-#     __tablename__ = "file_uploads"
+class FileUpload(Base):
+    __tablename__ = "file_uploads"
     
-#     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
-#     filename = Column(String, index=True)
-#     upload_time = Column(DateTime, default=datetime.now)
-#     status = Column(String, default="pending")
-    
-#     # Relationships
-#     sensor_data = relationship("SensorData", back_populates="file")
-    
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
+    filename = Column(String, index=True)
+    upload_time = Column(DateTime, default=datetime.now)
+    status = Column(String, default="pending")
+
+    # One-to-many relationship with SensorData
+    sensor_data = relationship("SensorData", back_populates="file_upload")
+
 class SensorData(Base):
     __tablename__ = "sensor_data"
     
@@ -23,6 +23,13 @@ class SensorData(Base):
     sensor_id = Column(String, index=True)
     value = Column(Float, nullable=False)
     timestamp = Column(DateTime, default=datetime.now)
+
+    # Foreign key to FileUpload
+    file_upload_id = Column(UUID(as_uuid=True), ForeignKey("file_uploads.id"))
+
+    # Relationships
+    file_upload = relationship("FileUpload", back_populates="sensor_data")
+    anomalies = relationship("AnomalyDetection", back_populates="sensor_data")
 
 class AnomalyDetection(Base):
     __tablename__ = "anomalies"
@@ -32,5 +39,5 @@ class AnomalyDetection(Base):
     sensor_data_id = Column(UUID(as_uuid=True), ForeignKey("sensor_data.id"))
     detected_time = Column(DateTime, default=datetime.now)
 
-    # Relationships
-    sensor_data = relationship("SensorData")
+    # Relationship back to SensorData
+    sensor_data = relationship("SensorData", back_populates="anomalies")
