@@ -13,8 +13,8 @@ logging.basicConfig(level=logging.INFO)
 # Celery configuration
 celery_app = Celery(
     'tasks',
-    broker='redis://localhost:6379/0',  # Redis as broker
-    backend='redis://localhost:6379/0'  # Redis as backend
+    broker='redis://redis:6379/0',  # Redis as broker
+    backend='redis://redis:6379/0'  # Redis as backend
 )
 
 celery_app.conf.update(
