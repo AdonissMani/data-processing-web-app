@@ -1,0 +1,22 @@
+[
+  {"sensor_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479", "value": 23.5, "timestamp": "2024-10-04T08:30:00"},
+  {"sensor_id": "c9bf9e57-1685-4c89-bafb-ff5af830be8a", "value": 150.2, "timestamp": "2024-10-04T09:15:00"},
+  {"sensor_id": "e9b1b51c-1426-40c3-8391-6071e9fd1d0d", "value": 60.3, "timestamp": "2024-10-04T09:45:00"},
+  {"sensor_id": "acfa9e8c-256d-4538-a4a6-9f1e72df5009", "value": 90.0, "timestamp": "2024-10-04T10:15:00"},
+  {"sensor_id": "b1b5c878-6b17-4843-87ff-71b865efcfd7", "value": 120.1, "timestamp": "2024-10-04T10:30:00"},
+  {"sensor_id": "cd8bcf15-f82a-46c6-bdb3-52a95f78402c", "value": 15.7, "timestamp": "2024-10-04T11:00:00"},
+  {"sensor_id": "9bda0b6c-98f3-4f19-b028-f5d1e4d208b7", "value": 180.5, "timestamp": "2024-10-04T11:15:00"},
+  {"sensor_id": "cc72847c-732f-4742-8282-399a98df3cc6", "value": 75.0, "timestamp": "2024-10-04T11:45:00"},
+  {"sensor_id": "f15f59a3-3bb8-4f56-9c36-f15e78758b17", "value": 50.6, "timestamp": "2024-10-04T12:00:00"},
+  {"sensor_id": "e94c5719-aba1-41fa-9436-c4a11d2f7f74", "value": 110.7, "timestamp": "2024-10-04T12:15:00"},
+  {"sensor_id": "a2836b7e-c35c-4c5a-ae73-dc16a2da27c8", "value": 35.8, "timestamp": "2024-10-04T12:30:00"},
+  {"sensor_id": "b5db5ddf-0d50-4d89-b709-cb69ad55dd32", "value": 102.9, "timestamp": "2024-10-04T12:45:00"},
+  {"sensor_id": "7954d1b0-554d-41f3-9020-f832a193f6fc", "value": 95.0, "timestamp": "2024-10-04T13:00:00"},
+  {"sensor_id": "d4c32f44-d60d-47c3-a9d0-606bc16edcf1", "value": 85.3, "timestamp": "2024-10-04T13:15:00"},
+  {"sensor_id": "8186737b-7c63-4c89-a021-80c89f9306ab", "value": 130.4, "timestamp": "2024-10-04T13:30:00"},
+  {"sensor_id": "ef423f16-5f98-4a8d-9771-61e97f0d511b", "value": 45.9, "timestamp": "2024-10-04T13:45:00"},
+  {"sensor_id": "370bf3bb-5b94-4e3b-8891-263816d1c0ae", "value": 155.8, "timestamp": "2024-10-04T14:00:00"},
+  {"sensor_id": "16f30edc-b7d0-43d7-b1d0-f6aab9c282c7", "value": 65.0, "timestamp": "2024-10-04T14:15:00"},
+  {"sensor_id": "b88d0127-dedf-4da5-a5ef-d30422e8df12", "value": 25.5, "timestamp": "2024-10-04T14:30:00"},
+  {"sensor_id": "2c958ded-2bc5-4b30-9649-53ff4a84e2aa", "value": 112.0, "timestamp": "2024-10-04T14:45:00"}
+]
