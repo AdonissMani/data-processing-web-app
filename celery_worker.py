@@ -1,11 +1,9 @@
 from datetime import datetime
 import uuid
 from celery import Celery
-import os
 import logging
-from sqlalchemy.orm import Session
 from pydantic import BaseModel
-from app.db.postgres import SessionLocal  # Correct import for managing session
+from app.db.postgres import SessionLocal
 from app.models import AnomalyDetection, SensorData
 
 logging.basicConfig(level=logging.INFO)
