@@ -16,8 +16,15 @@ metadata = MetaData()
 
 
 def get_db():
+    """
+    Dependency function to get a database session.
+    
+    Yields a database session object which should be used as a context manager.
+    """
     db = SessionLocal()
     try:
+        # Use the database session
         yield db
     finally:
+        # Close the database session
         db.close()

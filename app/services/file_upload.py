@@ -21,13 +21,40 @@ class SensorDataSchema(BaseModel):
     timestamp: str
 
 # Dependency function to check the file size
-def validate_file_size(file: UploadFile):
+def validate_file_size(file: UploadFile) -> UploadFile:
+    """
+    Validate the size of an uploaded file.
+
+    Args:
+    file (UploadFile): The uploaded file to validate.
+
+    Returns:
+    UploadFile: The validated file.
+
+    Raises:
+    HTTPException: If the file size exceeds the 10MB limit.
+    """
+    # Check the file size against the maximum allowed (10MB)
     if file.size > MAX_FILE_SIZE:
         raise HTTPException(status_code=413, detail="File size exceeds 10MB limit.")
+    # Return the validated file
     return file
 
 @router.post("/upload/")
 async def upload_file(file: UploadFile = File(...), db: Session = Depends(get_db)):
+    """
+    Uploads a JSON file containing sensor data and stores it in the database.
+    The file is validated against a Pydantic schema and the contents are
+    stored in the SensorData table.
+
+    Args:
+    file (UploadFile): The uploaded file.
+    db (Session): The database session.
+
+    Returns:
+    dict: A dictionary containing the status of the upload and the task ID
+          of the Celery task for anomaly detection.
+    """
     # Ensure the file is a JSON file
     if file.content_type != "application/json":
         raise HTTPException(status_code=400, detail="Invalid file format. Only JSON files are allowed.")
@@ -70,8 +97,8 @@ async def upload_file(file: UploadFile = File(...), db: Session = Depends(get_db
         db.commit()
 
         # Send the entire batch of sensor data to Celery for anomaly detection
-        process_sensor_data.delay(file_instance.id)
-        return {"status": "File processed successfully", "task_id": file_instance.id}
+        task_id = process_sensor_data.delay(file_instance.id)
+        return {"status": "File processed successfully", "task_id": task_id}
     
     except json.JSONDecodeError:
         raise HTTPException(status_code=400, detail="File is not a valid JSON.")

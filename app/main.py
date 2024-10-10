@@ -7,6 +7,7 @@ app = FastAPI()
 # Initialize the database
 Base.metadata.create_all(bind=engine)
 
+# Include the routers
 app.include_router(upload_router)
 app.include_router(anamoly_router)
 @app.websocket("/ws")

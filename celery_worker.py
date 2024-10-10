@@ -27,7 +27,7 @@ class AnamalyDetectionSchema(BaseModel):
     description: str
     detected_time: datetime
 
-# Example Celery task for processing sensor data
+# Celery task for processing sensor data
 @celery_app.task
 def process_sensor_data(file_upload_id: uuid.UUID):
     # database session
